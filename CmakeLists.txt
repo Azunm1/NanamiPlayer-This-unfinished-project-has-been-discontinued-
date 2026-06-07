@@ -1,0 +1,81 @@
+cmake_minimum_required(VERSION 3.16)
+
+project(nanami_player)
+
+set(CMAKE_CXX_STANDARD 17)
+
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+
+# =====================
+# FFmpeg 路径
+# =====================
+
+set(FFMPEG_ROOT
+    "C:/msys64/ucrt64"
+)
+
+# =====================
+# 可执行文件
+# =====================
+
+add_executable(${PROJECT_NAME}
+
+    src/main.cpp
+    src/ffmpeg_utils.cpp
+    src/media_source.cpp
+    src/stream_decoder.cpp
+    src/media_player.cpp
+    src/audio_output.cpp
+    src/playback_presenter.cpp
+    src/video_output.cpp
+)
+
+# =====================
+# 头文件
+# =====================
+
+target_include_directories(${PROJECT_NAME}
+
+    PRIVATE
+
+    ${FFMPEG_ROOT}/include
+)
+
+target_compile_definitions(${PROJECT_NAME}
+    PRIVATE
+    __STDC_CONSTANT_MACROS
+    __STDC_LIMIT_MACROS
+)
+
+# =====================
+# 库目录
+# =====================
+
+target_link_directories(${PROJECT_NAME}
+
+    PRIVATE
+
+    ${FFMPEG_ROOT}/lib
+)
+
+# =====================
+# 链接 FFmpeg.
+# =====================
+
+target_link_libraries(${PROJECT_NAME}
+
+    PRIVATE
+
+    avformat
+    avcodec
+    avutil
+    swscale
+    swresample
+    d3d11
+    dxgi
+    d3dcompiler
+    gdi32
+    user32
+    winmm
+)
